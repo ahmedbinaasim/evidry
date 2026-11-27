@@ -32,12 +32,28 @@ _Avoid_: Covered, traced
 Said of a rule with a linked test that passes and fails when the rule is deliberately broken, or that a person has checked.
 _Avoid_: Verified, proven
 
+**Planted bug**:
+A small deliberate change to a copy of the code, made to see whether a test notices.
+_Avoid_: Mutant, mutation
+
+**Rule break**:
+A deliberate change to a copy of the code that violates one particular rule, made to see whether the rule's linked test notices.
+_Avoid_: Planted bug
+
+**Kept test**:
+A generated test that passes reliably and either catches a planted bug no other test catches or confirms a rule nothing else has confirmed.
+_Avoid_: Proven test, verified test
+
 **Stale test**:
 A test linked to a rule whose wording changed after the test was last checked.
 _Avoid_: Outdated test
 
+**Suspected bug**:
+A repeatable failure, on the outcome an approved rule describes, of a test that states that rule correctly, which no person has judged yet.
+_Avoid_: Bug, defect
+
 **Unexplained failure**:
-A failing test with no approved rule to say whether the code or the test is wrong.
+A failing test where it is not established whether the code or the test is wrong, because no approved rule applies or the test may not state its rule correctly.
 _Avoid_: Suspected bug
 
 **Open question**:
