@@ -1,6 +1,6 @@
-# Which coverage and mutation tools can Provr build on?
+# Which coverage and mutation tools can Evidry build on?
 
-Research for [issue #3](https://github.com/ahmedbinaasim/provr/issues/3). **Date checked: 2026-11-27.**
+Research for [issue #3](https://github.com/ahmedbinaasim/evidry/issues/3). **Date checked: 2026-11-27.**
 
 ## How to read this
 
@@ -43,11 +43,11 @@ Research for [issue #3](https://github.com/ahmedbinaasim/provr/issues/3). **Date
 - It is the only combination here with all of: line-range scoping, a documented JSON schema with `coveredBy` / `killedBy` per mutant, a programmatic API, a `--testFiles` option to restrict which tests run, and Windows in CI.
 - Its main risk is runner-specific bugs, especially in the Vitest runner. Support one runner first and pin versions. Jest is the more cautious choice *(inference: fewer relevant open reports seen; I did not do a full bug comparison)*.
 
-**Second choice: Java with PIT.** The most clearly tested on all three operating systems, but scoping is per class, diff scoping is commercial, and Provr would have to drive Maven or Gradle.
+**Second choice: Java with PIT.** The most clearly tested on all three operating systems, but scoping is per class, diff scoping is commercial, and Evidry would have to drive Maven or Gradle.
 
 **Python** has the best coverage data but the weakest mutation story on native Windows. **Go** is the riskiest: no mature tool with trustworthy Windows behaviour was found.
 
-If Provr plants its own mutants and runs only the new test, the choice of mutation tool matters much less, and Python becomes attractive again *(inference; this is a design option, not researched here)*.
+If Evidry plants its own mutants and runs only the new test, the choice of mutation tool matters much less, and Python becomes attractive again *(inference; this is a design option, not researched here)*.
 
 ## Python
 
@@ -57,7 +57,7 @@ If Provr plants its own mutants and runs only the new test, the choice of mutati
 - Licences: Apache-2.0 ([LICENSE](https://github.com/coveragepy/coveragepy/blob/main/LICENSE.txt)); pytest-cov MIT ([repo](https://github.com/pytest-dev/pytest-cov)).
 - Machine output: `coverage json`, with `--include` to limit files and `--show-contexts` to list contexts per covered line ([docs](https://coverage.readthedocs.io/en/latest/commands/cmd_json.html)).
 - Per-test: `pytest --cov-context=test` records a context per test and phase, e.g. `test_x.py::test_addition|run` ([pytest-cov docs](https://pytest-cov.readthedocs.io/en/latest/contexts.html)).
-- **Trap:** the `sysmon` core, default on Python 3.14+, does not support dynamic contexts ([config docs](https://coverage.readthedocs.io/en/latest/config.html), [FAQ](https://coverage.readthedocs.io/en/latest/faq.html)). The [changelog](https://github.com/coveragepy/coveragepy/blob/main/CHANGES.rst) says that contexts switched through the API, as pytest-cov does, were once dropped silently and now raise a warning. Provr should force `core = ctrace` *(inference from the above)*. `ctrace` is slower than `sysmon`.
+- **Trap:** the `sysmon` core, default on Python 3.14+, does not support dynamic contexts ([config docs](https://coverage.readthedocs.io/en/latest/config.html), [FAQ](https://coverage.readthedocs.io/en/latest/faq.html)). The [changelog](https://github.com/coveragepy/coveragepy/blob/main/CHANGES.rst) says that contexts switched through the API, as pytest-cov does, were once dropped silently and now raise a warning. Evidry should force `core = ctrace` *(inference from the above)*. `ctrace` is slower than `sysmon`.
 - Platforms: Windows, macOS and Linux in CI for both ([coverage.py workflow](https://github.com/coveragepy/coveragepy/blob/main/.github/workflows/testsuite.yml), [pytest-cov workflow](https://github.com/pytest-dev/pytest-cov/blob/master/.github/workflows/test.yml)).
 
 ### Mutation: mutmut
@@ -95,13 +95,13 @@ If Provr plants its own mutants and runs only the new test, the choice of mutati
 - Drive it: CLI, or the `Stryker` class whose `runMutationTest()` returns the mutant results ([stryker.ts](https://github.com/stryker-mutator/stryker-js/blob/master/packages/core/src/stryker.ts)).
 - Machine output: the `json` reporter writes `reports/mutation/mutation.json` ([configuration](https://github.com/stryker-mutator/stryker-js/blob/master/docs/configuration.md)). The [schema](https://github.com/stryker-mutator/mutation-testing-elements/blob/master/packages/report-schema/src/mutation-testing-report-schema.json) has per-mutant `status` (Killed, Survived, NoCoverage, Timeout, CompileError, RuntimeError, Ignored, Pending), `location`, `replacement`, `coveredBy`, `killedBy`.
 - By default a mutant stops at the first failing test; `disableBail` reports all killing tests (the Jest runner has a special case, described in the configuration doc).
-- Scoping ([configuration](https://github.com/stryker-mutator/stryker-js/blob/master/docs/configuration.md)): `--mutate src/a.ts`, or ranges such as `src/a.ts:5-7` (ranges cannot be combined with globs). `--testFiles` limits which test files run. There is no git-diff flag in the options read, so Provr would turn a diff into ranges. [Incremental mode](https://github.com/stryker-mutator/stryker-js/blob/master/docs/incremental.md) reuses earlier results, with listed limits (it ignores changes outside mutated and test files).
+- Scoping ([configuration](https://github.com/stryker-mutator/stryker-js/blob/master/docs/configuration.md)): `--mutate src/a.ts`, or ranges such as `src/a.ts:5-7` (ranges cannot be combined with globs). `--testFiles` limits which test files run. There is no git-diff flag in the options read, so Evidry would turn a diff into ranges. [Incremental mode](https://github.com/stryker-mutator/stryker-js/blob/master/docs/incremental.md) reuses earlier results, with listed limits (it ignores changes outside mutated and test files).
 - Speed: `coverageAnalysis: perTest` (default) runs only covering tests; static mutants run all tests; concurrency defaults to cores minus one (all cores if four or fewer). The `command` runner has no coverage analysis and runs everything for every mutant. A dry run is always needed.
 - Platforms: CI on **Ubuntu and Windows**, no macOS job ([workflow](https://github.com/stryker-mutator/stryker-js/blob/master/.github/workflows/ci.yml)). Users report running it on macOS (e.g. [#6335](https://github.com/stryker-mutator/stryker-js/issues/6335)).
-- Open issues that matter to Provr:
+- Open issues that matter to Evidry:
   - [#6335](https://github.com/stryker-mutator/stryker-js/issues/6335) Vitest runner can score a killed mutant as Survived when bail wins a race. This error rejects a good test rather than accepting a bad one. `disableBail` may avoid it *(inference, untested)*.
   - [#6329](https://github.com/stryker-mutator/stryker-js/issues/6329) Vitest runner reports covered mutants as NoCoverage on Windows with `isolate: false`.
-  - [#6295](https://github.com/stryker-mutator/stryker-js/issues/6295) Stryker does not exit on Windows after finishing. Provr needs its own process timeout.
+  - [#6295](https://github.com/stryker-mutator/stryker-js/issues/6295) Stryker does not exit on Windows after finishing. Evidry needs its own process timeout.
   - [#6272](https://github.com/stryker-mutator/stryker-js/issues/6272) Vitest 5 with debug logging crashes. The runner's peer range is `vitest >=2.0.0`, and its package pins 4.1.12 for its own development.
 - The Vitest runner does not support Browser Mode and always uses `perTest` ([doc](https://github.com/stryker-mutator/stryker-js/blob/master/docs/vitest-runner.md)).
 
@@ -172,7 +172,7 @@ If Provr plants its own mutants and runs only the new test, the choice of mutati
 
 Newer projects such as [mutago](https://github.com/quality-gates/mutago) and [gooze](https://github.com/gooze-dev/gooze) exist; I did not assess them beyond noting that no Windows job appeared in the CI files sampled.
 
-## What this means for Provr's keep-or-reject gate
+## What this means for Evidry's keep-or-reject gate
 
 These are design observations *(inference)*.
 
@@ -191,4 +191,4 @@ These are design observations *(inference)*.
 - OpenClover's OS support and XML per-test output.
 - Whether `--testFiles` works with every StrykerJS runner.
 - Gradle plugins for PIT and JaCoCo.
-- Third-party dependency licences. Only the tools' own licences were considered. If Provr calls a tool as a separate process rather than bundling it, licence obligations are likely lighter, but that is not legal advice and was not researched.
+- Third-party dependency licences. Only the tools' own licences were considered. If Evidry calls a tool as a separate process rather than bundling it, licence obligations are likely lighter, but that is not legal advice and was not researched.
