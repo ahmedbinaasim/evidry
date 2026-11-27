@@ -1,19 +1,19 @@
-# Existing tools that overlap with Provr
+# Existing tools that overlap with Evidry
 
-Research for issue #2: which tools already generate or verify unit tests, API tests or QA test cases, and where Provr differs.
+Research for issue #2: which tools already generate or verify unit tests, API tests or QA test cases, and where Evidry differs.
 
 **Date checked: 2026-11-27.** All links were read, or queried, on that date.
 
 ## Conclusion
 
-Each part of Provr already exists somewhere. The combination was not found in any tool checked.
+Each part of Evidry already exists somewhere. The combination was not found in any tool checked.
 
 - Unit tests kept only on evidence: CoverUp (repeat runs and coverage), TestForge and MutantFix (planted bugs), Meta's internal tools.
 - API tests checked against the spec: Schemathesis, EvoMaster, CATS, Specmatic and others do this well.
 - Test cases linked to requirements: Xray, TestRail, Qase, VectorCAST Reqs2x, Kiro and several small projects.
 - Closest overlaps: **VectorCAST Reqs2x** (requirements to unit tests, traced, own model, commercial, C/C++/Ada), **Kiro** (requirements to property tests, traced, IDE only), **Diffblue Testing Agent** (verified unit tests, own coding agent, commercial) and **api-vv-toolkit** (OpenAPI plus requirements, per-requirement verdicts, MIT, very small).
 
-What Provr would do that none of the checked tools do:
+What Evidry would do that none of the checked tools do:
 
 1. Keep **one set of numbered rules** used by unit, API and QA generation, with **one report** of which tests of all three kinds cover each rule.
 2. Require **mode-specific evidence before keeping a test**, in all three modes, in one tool.
@@ -21,7 +21,7 @@ What Provr would do that none of the checked tools do:
 
 This is a claim about the tools in this file, not proof that no such tool exists. Points 1 and 3 are the safer differentiators. "We verify generated tests" and "we trace tests to requirements" are not differentiators on their own.
 
-Provr should reuse spec-conformance checking, coverage, mutation testing and model access, and build the rule model, the evidence gate and the cross-mode report (see [Reuse](#what-provr-could-reuse)).
+Evidry should reuse spec-conformance checking, coverage, mutation testing and model access, and build the rule model, the evidence gate and the cross-mode report (see [Reuse](#what-provr-could-reuse)).
 
 ## How to read the tables
 
@@ -118,9 +118,9 @@ These overlap closely in idea. All had 0 stars on the date checked, so treat the
 
 [Spec Kit](https://github.com/github/spec-kit) and [OpenSpec](https://github.com/Fission-AI/OpenSpec) (both MIT, active) manage specifications for coding agents. Whether they verify or trace tests was not examined.
 
-## Overlap by Provr promise
+## Overlap by Evidry promise
 
-| Provr promise | Already done by | Gap left |
+| Evidry promise | Already done by | Gap left |
 |---|---|---|
 | Passes repeatedly | CoverUp, TestForge, TestGen-LLM | Not combined with requirement rules |
 | Adds coverage | Qodo Cover, CoverUp, Keploy (Go), TestGen-LLM | The main open CLI (Qodo Cover) is unmaintained |
@@ -131,18 +131,18 @@ These overlap closely in idea. All had 0 stars on the date checked, so treat the
 
 Risks to the differentiation:
 
-- Test management tools can already show coverage per requirement. If they also count imported unit and API results (NV), a team using them gets part of Provr's report at ticket level. Provr's edge would then be rule-level granularity, automatic linking and the evidence behind each test.
+- Test management tools can already show coverage per requirement. If they also count imported unit and API results (NV), a team using them gets part of Evidry's report at ticket level. Evidry's edge would then be rule-level granularity, automatic linking and the evidence behind each test.
 - Diffblue, Kiro or a test manager could add the missing mode.
 - General coding agents can write all three kinds of test when prompted. They were not assessed here.
 
-## What Provr could reuse
+## What Evidry could reuse
 
-Licences matter because Provr's repository is MIT. This is a practical note, not legal advice.
+Licences matter because Evidry's repository is MIT. This is a practical note, not legal advice.
 
 | Need | Candidate | Licence | Note |
 |---|---|---|---|
 | API test generation and conformance | [Schemathesis](https://github.com/schemathesis/schemathesis) | MIT | Strongest reuse: do not write conformance checks again |
-| OpenAPI parsing and validation | [libopenapi](https://github.com/pb33f/libopenapi), [libopenapi-validator](https://github.com/pb33f/libopenapi-validator) (Go) | MIT | Choice depends on Provr's language |
+| OpenAPI parsing and validation | [libopenapi](https://github.com/pb33f/libopenapi), [libopenapi-validator](https://github.com/pb33f/libopenapi-validator) (Go) | MIT | Choice depends on Evidry's language |
 | Spec linting, mocking, diffing | [Spectral](https://github.com/stoplightio/spectral), [Prism](https://github.com/stoplightio/prism), [oasdiff](https://github.com/oasdiff/oasdiff) | Apache-2.0 | |
 | Coverage | [coverage.py](https://github.com/coveragepy/coveragepy) (Apache-2.0), [c8](https://github.com/bcoe/c8) (ISC), [JaCoCo](https://github.com/jacoco/jacoco/blob/master/LICENSE.md) (EPL-2.0), [diff_cover](https://github.com/Bachmann1234/diff_cover) (Apache-2.0) | as listed | Details belong to issue #3 |
 | Planted bugs | [mutmut](https://github.com/boxed/mutmut) (BSD-3), [cosmic-ray](https://github.com/sixty-north/cosmic-ray) (MIT), [StrykerJS](https://github.com/stryker-mutator/stryker-js) and [Stryker.NET](https://github.com/stryker-mutator/stryker-net) (Apache-2.0), [PIT](https://github.com/hcoles/pitest) (Apache-2.0), [cargo-mutants](https://github.com/sourcefrog/cargo-mutants) (MIT) | as listed | All committed to in 2026 |
@@ -158,7 +158,7 @@ Design references to study rather than copy: CoverUp's loop (Apache-2.0), TestFo
 ## Not verified and limits
 
 - No tool was installed or run. Vendor claims are as documented by the vendor.
-- The search was not exhaustive. Other products (for example Katalon, mabl, testRigor, Jama, Polarion) were not examined. Browser end-to-end tools are out of scope for Provr.
+- The search was not exhaustive. Other products (for example Katalon, mabl, testRigor, Jama, Polarion) were not examined. Browser end-to-end tools are out of scope for Evidry.
 - "None found" for requirement links rests on the pages read, often a README or a single docs page.
 - NV items in the tables, in particular: Early's validation, current Qodo test generation, Postman and SOAtest acceptance gates, Parasoft traceability, Kiro's property-test languages beyond Python.
 - Whether Xray, TestRail or Qase count imported automated test results toward requirement coverage was not confirmed.
