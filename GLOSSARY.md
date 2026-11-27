@@ -1,6 +1,6 @@
-# Provr
+# Evidry
 
-Provr writes test cases from code, requirements or an API spec, and shows the evidence for each one.
+Evidry writes test cases from code, requirements or an API spec, and shows the evidence for each one.
 
 ## Language
 
