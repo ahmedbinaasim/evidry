@@ -24,8 +24,12 @@ _Avoid_: Verified rule, confirmed rule
 A rule that no longer applies. Its ID is never reused.
 _Avoid_: Deleted rule
 
+**QA case**:
+A written test of one or more rules that a person can follow.
+_Avoid_: Test (reserved for runnable code), scenario, manual test
+
 **Linked**:
-Said of a rule that a test claims to cover.
+Said of a rule that a test or QA case claims to cover.
 _Avoid_: Covered, traced
 
 **Confirmed**:
@@ -44,9 +48,9 @@ _Avoid_: Planted bug
 A generated test that passes reliably and either catches a planted bug no other test catches or confirms a rule nothing else has confirmed.
 _Avoid_: Proven test, verified test
 
-**Stale test**:
-A test linked to a rule whose wording changed after the test was last checked.
-_Avoid_: Outdated test
+**Stale**:
+Said of a test or QA case linked to a rule whose wording changed after the test or case was last checked.
+_Avoid_: Outdated
 
 **Suspected bug**:
 A repeatable failure, on the outcome an approved rule describes, of a test that states that rule correctly, which no person has judged yet.
