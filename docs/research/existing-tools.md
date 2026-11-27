@@ -21,7 +21,7 @@ What Evidry would do that none of the checked tools do:
 
 This is a claim about the tools in this file, not proof that no such tool exists. Points 1 and 3 are the safer differentiators. "We verify generated tests" and "we trace tests to requirements" are not differentiators on their own.
 
-Evidry should reuse spec-conformance checking, coverage, mutation testing and model access, and build the rule model, the evidence gate and the cross-mode report (see [Reuse](#what-provr-could-reuse)).
+Evidry should reuse spec-conformance checking, coverage, mutation testing and model access, and build the rule model, the evidence gate and the cross-mode report (see [Reuse](#what-evidry-could-reuse)).
 
 ## How to read the tables
 
